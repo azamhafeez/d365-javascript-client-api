@@ -20,9 +20,7 @@ ClientApiExamples.FieldsControls = (function () {
             textAttribute.setSubmitMode("dirty"); // Other supported modes: always and never.
         }
 
-        textAttribute.setRequiredLevel("required");
-        textAttribute.setRequiredLevel("recommended");
-        textAttribute.setRequiredLevel("none");
+        setRequiredLevel(formContext, "new_exampletext", "recommended");
 
         if (textControl) {
             textControl.setVisible(true);
@@ -48,8 +46,20 @@ ClientApiExamples.FieldsControls = (function () {
         return true;
     }
 
+    function setRequiredLevel(formContext, logicalName, level) {
+        var supportedLevels = ["required", "recommended", "none"];
+        var attribute = formContext && formContext.getAttribute(logicalName);
+        if (!attribute || supportedLevels.indexOf(level) === -1) {
+            return false;
+        }
+
+        attribute.setRequiredLevel(level);
+        return true;
+    }
+
     return {
         applyExampleState: applyExampleState,
-        setControlState: setControlState
+        setControlState: setControlState,
+        setRequiredLevel: setRequiredLevel
     };
 }());
